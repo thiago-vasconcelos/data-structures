@@ -20,7 +20,7 @@ class HashItem {
     }
 
     T2 GetValue() {
-      return this->Value;
+      return this->value;
     }
 };
 
@@ -37,15 +37,15 @@ class HashTable {
     }
 
     void InsertItem (HashItem<T,T2>* newItem) {
-      int keyIndex = this->hashFunction(newItem.GetKey());
+      int keyIndex = this->hashFunction(newItem->GetKey());
       hashContainer[keyIndex].push_back(newItem);
     }
 
     T2 GetItemValue (T key) {
       int keyIndex = this->hashFunction(key);
       for(auto item : hashContainer[keyIndex]) {
-        if(key == item.GetKey()) {
-          return item.GetValue();
+        if(key == item->GetKey()) {
+          return item->GetValue();
         }
       }
       return NULL;
@@ -61,6 +61,15 @@ int main() {
   HashTable<int, int> *table = new HashTable<int,int>(&modularHash);
   HashItem<int, int> *item1 = new HashItem<int,int>(1,2);
   HashItem<int, int> *item2 = new HashItem<int,int>(2,3);
+  HashItem<int, int> *item3 = new HashItem<int,int>(130,4);
+
+  table->InsertItem(item1);
+  table->InsertItem(item2);
+  table->InsertItem(item3);
+
+  cout<<table->GetItemValue(item1->GetKey())<<endl;
+  cout<<table->GetItemValue(item2->GetKey())<<endl;
+  cout<<table->GetItemValue(item3->GetKey())<<endl;
 
   delete(table);
   delete(item1);
